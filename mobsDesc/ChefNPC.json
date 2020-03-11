@@ -1,0 +1,9 @@
+{
+  "baseSpeed": 0,
+  "name_objective": "ChefNPC_Name",
+  "spriteDesc": "spritesDesc/ChefNPC.json",
+  "scriptFile": "scripts/npc/Chef",
+  "friendly": true,
+  "aiState": "Passive",
+  "fraction": "NEUTRAL"
+}
