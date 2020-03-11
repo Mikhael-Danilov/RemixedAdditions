@@ -26,7 +26,7 @@ return mob.init({
     die = function(self, cause)
         local level = RPD.Dungeon.level
         local cellPos = RPD.getXy(self)
-        RPD.Actor:remove(RPD.new(RPD.Objects.Actors.ScriptedActor,"scripts/actors/BoneDragon/Burn"))
+        --RPD.Actor:remove(RPD.new(RPD.Objects.Actors.ScriptedActor,"scripts/actors/BoneDragon/Burn"))
         local function deathDmg(cell)
             local target = RPD.Actor:findChar(cell)
             if target then
@@ -85,9 +85,11 @@ return mob.init({
                 return self:damage(dmg*3, enemy)
             end
         end
+        --[[
         if math.random(1,100) <= 5 then
             level:addScriptedActor(RPD.new(RPD.Objects.Actors.ScriptedActor,"scripts/actors/BoneDragon/Burn"))
         end
+        ]]
         return self:damage(dmg, enemy)
     end,
 
