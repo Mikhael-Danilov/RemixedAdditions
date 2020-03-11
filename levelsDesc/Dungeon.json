@@ -4,8 +4,7 @@
   "testLevel":{"kind":"TestLevel", "depth":0, "size":[32,32], "music":"game.mp3", "script":"scripts/actors/TestLevel"},
 
   "home":{"kind":"PredesignedLevel", "depth":0, "file":"levelsDesc/Home.json", "noFogOfWar":"true", "isSafe":true, "music":"ost_town_1.mp3", "script": "scripts/actors/DeathCounter"},
-  "crossroads":{"kind":"PredesignedLevel", "depth":0, "file":"levelsDesc/Crossroads.json", "noFogOfWar":"true", "isSafe":true, "music":"ost_town_1.mp3", "script": "scripts/actors/Crossroads"},/*
-  "ruinedCastle":{"kind":"PredesignedLevel", "depth":0, "file":"levelsDesc/RuinedCastle.json", "noFogOfWar":"false", "isSafe":false, "music":"ost_town_1.mp3", "script": "scripts/actors/RuinedCastle"},*/
+  "crossroads":{"kind":"PredesignedLevel", "depth":0, "file":"levelsDesc/Crossroads.json", "noFogOfWar":"true", "isSafe":true, "music":"ost_town_1.mp3", "script": "scripts/actors/Crossroads"},
   "desert":{"kind":"PredesignedLevel", "depth":0, "file":"levelsDesc/Desert.json", "noFogOfWar":"false", "isSafe":false, "music":"Desert.mp3", "script": "scripts/actors/Desert"},
   "tomb":{"kind":"PredesignedLevel", "depth":0, "file":"levelsDesc/Tomb.json", "noFogOfWar":"true", "isSafe":true, "music":"Tomb.mp3", "script": "scripts/actors/DeathCounter"},
   "snowTown":{"kind":"PredesignedLevel", "depth":0, "file":"levelsDesc/Town.json", "noFogOfWar":"true", "isSafe":true, "music":"ost_town_1.mp3", "script": "scripts/actors/Towns/Regular"},
@@ -110,8 +109,7 @@
   "testLevel":[["home"],[]],
 
   "home":[["crossroads"],[]],
-  "crossroads":[["home", "ice1","snowTown","home","desert","home"],["home"]],/*
-  "ruinedCastle":[[],["crossroads"]],*/
+  "crossroads":[["home", "ice1","snowTown","home","desert","home"],["home"]],
   "desert":[["tomb","tomb","tomb"],["crossroads"]],
   "tomb":[["tomb1"],["desert","desert","desert"]],
   "snowTown":[["house1","house2","inn","church","cinema","tower1","library","town_shop","fortune","shed"],["crossroads"]],
@@ -166,7 +164,7 @@
   "31":[["portal_room_lvl31"],["30"]],
   "portal_room_lvl31":[["32"],["31"]],
   "32":[["36"],["portal_room_lvl31"]],
-  "36":[[],"32"],
+  "36":[[],["32"]],
   "6s":[["7s"],["5"]],
   "7s":[["8s"],["6s"]],
   "8s":[["9s"],["7s"]],
