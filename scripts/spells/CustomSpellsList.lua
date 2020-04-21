@@ -6,8 +6,8 @@
 
 local spells = {}
 spells["Necromancy"] = {"UndeadSummon","RaiseDead","DeathlyRecruit","Exhumation","DarkSacrifice","Possess"}
---spells["Elemental"] = {"ElementalSummon"}
---spells["Common"] = {"Bless"}
+spells["Elemental"] = {"ElementalSummon"}
+spells["Common"] = {"Bless","TownPortal","ElementalSummon","RaiseDead","BodyArmor"}
 spells["Combat"] = {"DieHard","Dash","BodyArmor","Smash"}
 spells["Rogue"] = {"Cloak"}
 

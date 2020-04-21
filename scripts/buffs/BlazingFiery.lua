@@ -3,8 +3,8 @@
 --- Created by mike.
 --- DateTime: 02.05.19 14:36
 ---
-local RPD  = require "scripts/lib/revampedCommonClasses"
 
+local RPD  = require "scripts/lib/revampedCommonClasses"
 local buff = require "scripts/lib/buff"
 
 local immune = {"Burning","LiquidFlame","Fire","FireElemental"}
@@ -14,7 +14,7 @@ local immuneMobs = {MirrorImage=true,Shopkeeper=true,BellaNPC=true,ImpShopkeeper
 return buff.init{
     desc  = function ()
         return {
-            icon          = 50,
+            icon          = 52,
             name          = "BlazingFieryBuff_Name",
             info          = "BlazingFieryBuff_Info",
         }
@@ -32,17 +32,18 @@ return buff.init{
     end,
 
     charAct = function(self,buff)
-        local hero = RPD.Dungeon.hero
         local function burnThem(cell)
             local target = RPD.Actor:findChar(cell)
-            if target  then
-                if target ~= self and not target:isPet() and not immuneMobs[target:getEntityKind()] then
+            if target then
+                if target ~= buff.target and not target:isPet() and not immuneMobs[target:getEntityKind()] and not (target:buffLevel("GodMode") > 0) then
                     RPD.affectBuff(target, RPD.Buffs.Burning, 5)
-                    RPD.affectBuff(target, RPD.Buffs.Light, 5)
+                    if target:buffLevel(RPD.Buffs.Burning) > 0 then
+                        RPD.affectBuff(target, RPD.Buffs.Light, 5)
+                    end
                 end
             end
         end
-        RPD.forCellsAround(hero:getPos(), burnThem)
+        RPD.forCellsAround(buff.target:getPos(), burnThem)
     end,
 
     immunities = function(self, buff)

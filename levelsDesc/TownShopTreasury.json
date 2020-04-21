@@ -23,8 +23,8 @@
   "SCROLL": {
     "categoryChance": 10,
     "ScrollOfMagicMapping": 1,
-    "ScrollOfIdentify": 1,/*
-    "ScrollOfReturning": 0.05,*/
+    "ScrollOfIdentify": 1,
+    "ScrollOfReturning": 0.05,
     "SpecialSummon": 1
   },
   "POTION": {

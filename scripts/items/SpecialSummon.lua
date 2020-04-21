@@ -9,8 +9,8 @@ local RPD = require "scripts/lib/revampedCommonClasses"
 
 local item = require "scripts/lib/item"
 
---local list = {"FireMage","IceMage","WaterMage","DarkMage","LightMage","EarthMage"}
-local list = {"FireElemental","IceElemental","WaterElemental","MazeShadow","Wraith","EarthElemental"}
+local list = {"FireMage","IceMage","WaterMage","DarkMage","LightMage","EarthMage"}
+--local list = {"FireElemental","IceElemental","WaterElemental","Shadow","Wraith","EarthElemental"}
 local waitTime = 25
 
 return item.init{
@@ -22,15 +22,16 @@ return item.init{
             name          = "SpecialSummon_Name",
             info          = "SpecialSummon_Desc",
             stackable     = false,
-            upgradable    = false,
-            identified    = true,
+            upgradable    = true,
+            identified    = false,
             defaultAction = "Scroll_ACRead",
             price         = 350
         }
     end,
     actions = function(self, item, hero)
+        local multiplier = item:level()+1
         self.data.used = self.data.used or 0
-        self.data.uses = self.data.uses or math.random(1,7)
+        self.data.uses = self.data.uses or math.random(1,7)*multiplier
         return {"Scroll_ACRead"}
     end,
 
@@ -49,11 +50,21 @@ return item.init{
 
             if level:cellValid(cell) then
                 local mob
-                mob = RPD.MobFactory:mobByName(list[math.random(1,6)])
+                local hpMultiplier = 1
+                if item:isIdentified() then
+                    hpMultiplier = 3
+                end
+                mob = RPD.MobFactory:mobByName(list[math.random(1,#list)])
                 mob:setPos(cell)
+                mob:ht(mob:ht()*hpMultiplier)
+                mob:hp(mob:ht())
                 mob:loot(RPD.ItemFactory:itemByName("Gold"))
                 mob:makePet(mob, hero)
-                RPD.setAi(mob, "Wandering")
+                if item:isIdentified() then
+                    RPD.setAi(mob, "Hunting")
+                else
+                    RPD.setAi(mob, "Wandering")
+                end
                 level:spawnMob(mob)
                 RPD.glogp("Summoned_Mob",mob:getName())
                 if self.data.used == self.data.uses-1 then
@@ -65,6 +76,14 @@ return item.init{
                     self.data.used = 0
                     RPD.glogn("SpecialSummon_Broke",item:name())
                     item:detach(item:getUser():getBelongings().backpack)
+                end
+                if not item:isIdentified() then
+                    if self.data.uses >= 1 then
+                        if math.random(1,100)+self.data.uses > 35 then
+                            item:isIdentified(true)
+                            RPD.glogp("Weapon_Identify","book",item:name()..". Your summons using this specific "..item:name().." will now be slightly stronger")
+                        end
+                    end
                 end
                 return true
             end

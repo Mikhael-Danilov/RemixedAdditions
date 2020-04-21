@@ -4,8 +4,10 @@
 --- DateTime: 02.05.19 14:36
 ---
 local RPD  = require "scripts/lib/revampedCommonClasses"
-
 local buff = require "scripts/lib/buff"
+local storage = require "scripts/lib/storage"
+
+local Debuff = {"Burning","Frost","Slown","Sleep","Blindness","Paralysis","Bleeding","Roots","Vertigo","SubZero","Nightmare","Charm","Hunger","Poison","Cripple","Necrotism","Amok","Ooze","Terror","Weakness","FairySpell"}
 
 return buff.init{
     desc  = function ()
@@ -21,6 +23,7 @@ return buff.init{
     end,
 
     detach = function(self, buff)
+        buff.target.viewDistance = 1
     end,
 
     act = function(self,buff)
@@ -28,21 +31,63 @@ return buff.init{
     end,
 
     defenceProc = function(chr, buff, enemy, dmg)
+        local chr = buff.target
         local chrKind = enemy:getEntityKind()
-        RPD.glogn(RPD.MobFactory:mobByName(chrKind):name().." has delt "..tostring(dmg).." damage.")
+        local debuff = storage.get("RemoveDebuffs") or false
+        if debuff then
+            for i = 1, #Debuff do
+                if chr:buffLevel(Debuff[i]) > 0 then
+                    if Debuff[i] ~= "FairySpell" or (Debuff[i] == "FairySpell" and storage.get("FairyOverlord Saved") == false) then
+                        RPD.removeBuff(chr, Debuff[i])
+                    end
+                end
+            end
+        end
+        RPD.glogn(RPD.MobFactory:mobByName(chrKind):name().." has delt "..tostring(dmg).." damage to "..chr:name()..".")
         return 0
     end,
 
     attackProc = function(chr, buff, enemy, dmg)
+        local chr = buff.target
         local chrKind = enemy:getEntityKind()
-        RPD.glogp("You have delt "..tostring(dmg).." damage to "..RPD.MobFactory:mobByName(chrKind):name()..".")
+        local debuff = storage.get("RemoveDebuffs") or false
+        local grammar
+        if chr:name() == "you" then
+            grammar = "have"
+        else
+            grammar = "has"
+        end
+        if debuff then
+            for i = 1, #Debuff do
+                if chr:buffLevel(Debuff[i]) > 0 then
+                    if Debuff[i] ~= "FairySpell" or (Debuff[i] == "FairySpell" and storage.get("FairyOverlord Saved") == false) then
+                        RPD.removeBuff(chr, Debuff[i])
+                    end
+                end
+            end
+        end
+        RPD.glogp(chr:name().." "..grammar.." delt "..tostring(dmg).." damage to "..RPD.MobFactory:mobByName(chrKind):name()..".")
         return dmg
     end,
 
-    charAct = function(self,buff)
-        local hero = RPD.Dungeon.hero
-        hero:heal(hero:ht(), hero)
-        hero:setSoulPoints(hero:getSkillPointsMax())
-        hero:hunger():satisfy(hero:hunger():getHungerLevel())
+    charAct = function(chr, buff)
+        local level = RPD.Dungeon.level
+        local chr = buff.target
+        local debuff = storage.get("RemoveDebuffs") or false
+        chr.viewDistance = level:getMaxViewDistance()
+        if debuff then
+            for i = 1, #Debuff do
+                if chr:buffLevel(Debuff[i]) > 0 then
+                    if Debuff[i] ~= "FairySpell" or (Debuff[i] == "FairySpell" and storage.get("FairyOverlord Saved") == false) then
+                        RPD.removeBuff(chr, Debuff[i])
+                    end
+                end
+            end
+        end
+        chr:heal(chr:ht(), chr)
+        if chr:name() == "you" then
+            chr:setSoulPoints(chr:getSkillPointsMax())
+            chr:hunger():satisfy(chr:hunger():getHungerLevel())
+        end
     end
 }

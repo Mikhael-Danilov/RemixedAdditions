@@ -1,7 +1,8 @@
-{
+{/*
+  "defenseSkill": 20000,
+  "ht": 20000,*/
   "baseSpeed": 0,
   "name": "Monika",
-  "name_objective": "Monika",
   "description": "Wa.. How did she get in this game?!\n\nBecause she's _Just Monika_ of course!",
   "spriteDesc": "spritesDesc/MonikaNPC.json",
   "scriptFile": "scripts/npc/Monika",

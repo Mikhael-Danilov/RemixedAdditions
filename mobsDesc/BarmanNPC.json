@@ -1,6 +1,5 @@
 {
   "baseSpeed": 0,
-  "name_objective": "BarmanNPC_Name",
   "spriteDesc": "spritesDesc/BarmanNPC.json",
   "scriptFile": "scripts/npc/Barman",
   "friendly": true,

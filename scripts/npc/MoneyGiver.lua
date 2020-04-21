@@ -14,9 +14,9 @@ local client
 local Potions = {"PotionOfExperience","PotionOfPurity","PotionOfToxicGas","PotionOfFrost","PotionOfParalyticGas","PotionOfHealing","PotionOfLiquidFlame","ManaPotion","PotionOfStrength","PotionOfMight","PotionOfInvisibility","PotionOfLevitation","PotionOfMindVision"}
 local Scrolls = {"ScrollOfUpgrade","ScrollOfTerror","ScrollOfChallenge","ScrollOfLullaby","ScrollOfRemoveCurse","ScrollOfCurse","ScrollOfMirrorImage","ScrollOfPsionicBlast","ScrollOfIdentify","ScrollOfDomination","ScrollOfSummoning","ScrollOfRecharging","ScrollOfTeleportation","ScrollOfWeaponUpgrade","ScrollOfMagicMapping","BlankScroll"}
 local Wands = {"WandOfMagicMissile","WandOfPoison","WandOfBlink","WandOfSlowness","WandOfFirebolt","WandOfIcebolt","WandOfFlock","WandOfLightning","WandOfTelekinesis","WandOfDisintegration","WandOfTeleportation","WandOfAmok","WandOfAvalanche","WandOfRegrowth","WandOfShadowbolt"}
-local Food = {"Ration","OverpricedRation",--[["RottenRation",]]"Pasty",--[["RottenPasty","Candy",]]"PumpkinPie",--[["PseudoPasty",]]"ChristmasTurkey",--[["RottenPumpkinPie",]]"ChargrilledMeat","FriedFish","MysteryMeat","RawFish","FrozenCarpaccio","FrozenFish"}
-local Modded = {"MagicGun","CharmingRing","BlazingRing","SpecialSummon","TestingItem","Board","OldShield",--[["ScrollOfReturning",]]"CatchingCapsule","UltimateCatchingCapsule","Bandage","OldBandage","CactusFruit"}
-local Removed = {"RingOfStoneWalking","RingOfFrost","LloydsBeacon","ScrollOfWipeOut"}
+local Food = {--[["Ration","OverpricedRation","RottenRation","Pasty","RottenPasty","Candy","PumpkinPie","PseudoPasty","ChristmasTurkey","RottenPumpkinPie","ChargrilledMeat","FriedFish",]]"MysteryMeat","RawFish","FrozenCarpaccio","FrozenFish"}
+local Modded = {"test/TestItem","MagicGun","CharmingRing","BlazingRing","SpecialSummon","TestingItem","TestMeleeWeapon","Board","OldShield","NecroticShield","ScrollOfReturning","CatchingCapsule","UltimateCatchingCapsule","Bandage","OldBandage","CactusFruit","NightmareEye","CrystallizedFlower","FrozenFlame"}
+local Removed = {"RingOfStoneWalking","RingOfFrost","LloydsBeacon","ScrollOfWipeOut","HookedDagger"}
 
 local dialog = function(index)
     if index == 0 then
@@ -82,8 +82,8 @@ local dialog = function(index)
 
     if index == 3 then
         local hero = RPD.Dungeon.hero
-        hero:lvl(2^31-1)
-        hero:ht(2^31-1)
+        hero:lvl(10000)
+        hero:ht(10000)
         hero:hp(hero:ht())
         hero:STR(2^31-1)
         RPD.showQuestWindow( npc,"Set everything of to "..tostring(2^31-1)..".")
@@ -141,9 +141,12 @@ local dialog = function(index)
             if Potions[p] ~= "ManaPotion" then
                 RPD.ItemFactory:itemByName(Potions[p]):setKnown()
             end
-            hero:collect(RPD.item(Potions[p], 10000))
+            if Potions[p] == "PotionOfExperience" or Potions[p] == "PotionOfHealing" or Potions[p] == "ManaPotion" or Potions[p] == "PotionOfStrength" or Potions[p] == "PotionOfMight" then
+                hero:collect(RPD.item(Potions[p], 10000))
+            else
+                hero:collect(RPD.createItem(Potions[p], {level=100,quantity=10000}))
+            end
         end
-        RPD.showQuestWindow( npc,"Gave you max of all Potions.")
         if not hero:getBelongings():getItem("ScrollHolder") then
             hero:collect(RPD.ItemFactory:itemByName("ScrollHolder"))
         end
@@ -151,7 +154,6 @@ local dialog = function(index)
             hero:collect(RPD.item(Scrolls[s], 10000))
             RPD.ItemFactory:itemByName(Scrolls[s]):setKnown()
         end
-        RPD.showQuestWindow( npc,"Gave you max of all Scrolls.")
         if not hero:getBelongings():getItem("WandHolster") then
             hero:collect(RPD.ItemFactory:itemByName("WandHolster"))
         end
@@ -159,12 +161,12 @@ local dialog = function(index)
             local wand = RPD.createItem(Wands[w], {level=100})
             hero:collect(wand)
             wand:setKnown()
+            wand:setChargeKnown(true)
         end
-        RPD.showQuestWindow( npc,"Gave you 1 of all Wands.")
-        for f = 1, #Food do
+--[[        for f = 1, #Food do
             hero:collect(RPD.item(Food[f], 10000))
-        end
-        RPD.showQuestWindow( npc,"Gave you max of all Food.")
+        end]]
+        RPD.showQuestWindow( npc,"Gave you max of all Potions, and Scrolls and 1 of each Wand.")
     end
 
     if index == 8 then
@@ -172,32 +174,39 @@ local dialog = function(index)
         local added = 0
         for m = 1, #Modded do
             if not hero:getBelongings():getItem(Modded[m]) then
-                if Modded[m] == "ScrollOfReturning" or Modded[m] == "CactusFruit" or Modded[m] == "Bandage" or Modded[m] == "OldBandage" then
+                if Modded[m] == "ScrollOfReturning" or Modded[m] == "CactusFruit" or Modded[m] == "Bandage" or Modded[m] == "OldBandage" or Modded[m] == "FrozenFlame" then
                     hero:collect(RPD.item(Modded[m], 10000))
-                elseif Modded[m] == "CatchingCapsule" or Modded[m] == "UltimateCatchingCapsule" then
+                elseif Modded[m] == "UltimateCatchingCapsule" then
                     hero:collect(RPD.item(Modded[m]))
                     hero:collect(RPD.item(Modded[m]))
                     hero:collect(RPD.item(Modded[m]))
+                elseif Modded[m] == "CatchingCapsule" or Modded[m] == "TestMeleeWeapon" then
+                    local quantity = 3
+                    for i = 1, quantity do
+                        if Modded[m] == "CatchingCapsule" or (Modded[m] == "TestMeleeWeapon" and i ~= 3) then
+                            hero:collect(RPD.createItem(Modded[m], {level=10000}))
+                        end
+                    end
+                elseif Modded[m] == "MagicGun" or Modded[m] == "CharmingRing" or Modded[m] == "Board" or Modded[m] == "OldShield" or Modded[m] == "NecroticShield" then
+                    hero:collect(RPD.createItem(Modded[m], {level=10000}))
                 else
                     hero:collect(RPD.item(Modded[m]))
                 end
                 added = added+1
             end
         end
-        if not hero:getBelongings():getItem(RPD.createItem("IronKey", {levelId="house2",depth=0})) then
-            local key = RPD.createItem("IronKey", {levelId="house2",depth=0})
---[[            key.levelId = "house2"
-            key.depth = 0]]
+        local key = RPD.createItem("IronKey", {levelId="house2",depth=0})
+        if not hero:getBelongings():getItem(key) then
             hero:collect(key)
             added = added+1
         end
-        if not hero:getBelongings():getItem(RPD.createItem("Codex", {text="abandonedHouse_Info"})) then
-            local book = RPD.createItem("Codex", {text="abandonedHouse_Info"})
+        local book = RPD.createItem("Codex", {text="abandonedHouse_Info"})
+        if not hero:getBelongings():getItem(book) then
             hero:collect(book)
             added = added+1
         end
         if added > 0 then
-            RPD.showQuestWindow( npc,"Gave you 1 of all Modded Items.")
+            RPD.showQuestWindow( npc,"Gave you all of the Modded Items.")
         elseif added <= 0 then
             RPD.showQuestWindow( npc,"You already have all of the modded items.\nCan't give you more of them.")
         end
@@ -217,7 +226,7 @@ local dialog = function(index)
             end
         end
         if added > 0 then
-            RPD.showQuestWindow( npc,"Gave you 1 of all Removed Items.")
+            RPD.showQuestWindow( npc,"Gave you all of the \"Removed\" Items.")
         elseif added <= 0 then
             RPD.showQuestWindow( npc,"You already have all of the Removed Items.\nCan't give you more of them")
         end
@@ -229,14 +238,15 @@ return mob.init({
     interact = function(self, chr)
         client = chr
         npc = self
+        local amount = 1.79769313486232E+308d
 
         RPD.chooseOption( dialog,
             "Temp Money",
-            "Give/Remove Money (plus other things)",
+            "Give/Remove Money (plus other things)\nFun Fact: \"1.79769313486232E+308d\" = "..tostring(amount),
             "Give max Money",
             "Remove Money",
             "Damage/Heal you and pet(s)",
-            "Set everything of you to max",
+            "Set everything of you to max and hp to 10k",
             "Give all Bags",
             "Get Pets id's",
             "Bye",

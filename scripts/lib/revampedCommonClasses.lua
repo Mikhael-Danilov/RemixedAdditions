@@ -7,10 +7,10 @@
 
 local GLog  = luajava.bindClass("com.watabou.pixeldungeon.utils.GLog")
 
-
 local RemixedDungeon = luajava.bindClass("com.watabou.pixeldungeon.RemixedDungeon")
 
 local Sample = luajava.bindClass("com.watabou.noosa.audio.Sample")
+local Music            = luajava.bindClass("com.watabou.noosa.audio.Music")
 local StringsManager   = luajava.bindClass("com.watabou.noosa.StringsManager")
 
 local Buffs  = {
@@ -123,6 +123,7 @@ local actions = {
     moisten = "Potion_ACMoisten",
     equip = "EquipableItem_ACEquip",
     unequip = "EquipableItem_ACUnequip",
+    use = "Item_ACUse",
     throw = "Item_ACThrow",
     drop = "Item_ACDrop",
     inscribe = "Stylus_ACInscribe",
@@ -137,6 +138,8 @@ local actions = {
     beaconSet = "LloidsBeacon_ACSet",
     beaconReturn = "LloidsBeacon_ACReturn"
 }
+
+local Bundle           = "com.watabou.utils.Bundle"
 
 local Objects = {
     Ui = {
@@ -157,6 +160,8 @@ local Camera    = luajava.bindClass("com.watabou.noosa.Camera")
 
 local MobAi = luajava.bindClass("com.nyrds.pixeldungeon.ai.MobAi")
 
+local Position = "com.nyrds.pixeldungeon.utils.Position"
+
 local wandOfBlink = luajava.newInstance("com.watabou.pixeldungeon.items.wands.WandOfBlink")
 local wandOfTelekinesis = luajava.newInstance("com.watabou.pixeldungeon.items.wands.WandOfTelekinesis")
 local wandOfFirebolt = luajava.newInstance("com.watabou.pixeldungeon.items.wands.WandOfFirebolt")
@@ -171,10 +176,12 @@ local ItemFactory     = luajava.bindClass("com.nyrds.pixeldungeon.items.common.I
 local MobFactory      = luajava.bindClass("com.nyrds.pixeldungeon.mobs.common.MobFactory")
 local EffectsFactory  = luajava.bindClass("com.nyrds.pixeldungeon.effects.EffectsFactory")
 local LevelObjectsFactory  = luajava.bindClass("com.nyrds.pixeldungeon.levels.objects.LevelObjectsFactory")
+local Treasury        = luajava.bindClass("com.nyrds.pixeldungeon.items.Treasury")
 
 
 local Tweeners = {
-    PosTweener = luajava.bindClass("com.watabou.noosa.tweeners.PosTweener")
+    PosTweener = luajava.bindClass("com.watabou.noosa.tweeners.PosTweener"),
+    JumpTweener = luajava.bindClass("com.watabou.noosa.tweeners.JumpTweener")
 }
 
 local Sfx = {
@@ -210,7 +217,21 @@ local Badges = luajava.bindClass("com.watabou.pixeldungeon.Badges")
 local RPD = {
     RemixedDungeon = RemixedDungeon,
     GameScene = GameScene,
+    InterScene = luajava.bindClass("com.watabou.pixeldungeon.scenes.InterlevelScene"),
     Dungeon = Dungeon,
+
+    System = {
+        Input = luajava.bindClass("com.nyrds.platform.Input")
+    },
+
+    Slots = {
+        weapon       = "WEAPON",
+        armor        = "ARMOR",
+        leftHand     = "LEFT_HAND",
+        artifact     = "ARTIFACT",
+        leftArtifact = "LEFT_ARTIFACT"
+    },
+
     SystemTime = luajava.bindClass("com.watabou.utils.SystemTime"),
     Terrain = luajava.bindClass("com.watabou.pixeldungeon.levels.Terrain"),
     Actor = luajava.bindClass("com.watabou.pixeldungeon.actors.Actor"),
@@ -218,6 +239,7 @@ local RPD = {
     MobFactory = MobFactory,
     ItemFactory = ItemFactory,
     EffectsFactory = EffectsFactory,
+    Treasury = Treasury,
     Journal = luajava.bindClass("com.watabou.pixeldungeon.Journal"),
     Chasm = luajava.bindClass("com.watabou.pixeldungeon.levels.features.Chasm"),
     Mob   = luajava.bindClass("com.watabou.pixeldungeon.actors.mobs.Mob"),
@@ -267,6 +289,10 @@ local RPD = {
         Buffs.Buff:detach(chr, buffClass)
     end,
 
+    prolongBuff = function (chr, buffClass, duration)
+        return Buffs.Buff:prolong(chr, buffClass, duration)
+    end,
+
     placePseudoBlob = function (blobClass, cell)
         blobClass:affect(cell)
     end,
@@ -277,6 +303,14 @@ local RPD = {
 
     playSound = function(sound)
         Sample.INSTANCE:play(sound)
+    end,
+
+    playMusic = function(music, looped)
+        Music:play(music, looped)
+    end,
+
+    stopMusic = function()
+        Music:stop()
     end,
 
     textById = function(id)
@@ -295,6 +329,18 @@ local RPD = {
         GLog:n(text,{...})
     end,
 
+    glogw = function (text,...)
+        GLog:w(text,{...})
+    end,
+
+    glogh = function (text,...)
+        GLog:h(text,{...})
+    end,
+
+    glogd = function (text,...)
+        GLog:debug(text,{...})
+    end,
+
     getXy = function (chr)
         local pos = chr:getPos()
         return {Dungeon.level:cellX(pos),Dungeon.level:cellY(pos)}
@@ -306,6 +352,11 @@ local RPD = {
 
     blinkTo = function(mob, target)
         wandOfBlink:mobWandUse(mob, target)
+    end,
+
+    teleportTo = function(levelId, x, y)
+        local position = luajava.newInstance(Position,levelId, x, y)
+        Dungeon.hero:teleportTo(position)
     end,
 
     chooseOption = function(handler, title, text, ...)
@@ -353,6 +404,10 @@ local RPD = {
         Tweeners.PosTweener:attachTo(img,dx,dy,time)
     end,
 
+    attachJumpTweener = function(chr, target, height, time)
+        Tweeners.JumpTweener:attachTo(chr:getSprite(), target, height, time)
+    end,
+
     item = function(itemClass, quantity)
         quantity = quantity or 1
         local item = ItemFactory:itemByName(itemClass)
@@ -392,7 +447,7 @@ local RPD = {
 
         for i = x - 1, x + 1 do
             for j = y - 1, y + 1 do
-                if i~=x or j~=y then
+                if (i~=x or j~=y) and level:cellValid(i,j) then
                     action(level:cell(i,j))
                 end
             end
@@ -407,7 +462,9 @@ local RPD = {
 
         for i = x - 1, x + 1 do
             for j = y - 1, y + 1 do
-                action(level:cell(i,j))
+                if level:cellValid(i,j) then
+                    action(level:cell(i,j))
+                end
             end
         end
     end,

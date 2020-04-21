@@ -4,8 +4,9 @@
   "testLevel":{"kind":"TestLevel", "depth":0, "size":[32,32], "music":"game.mp3", "script":"scripts/actors/TestLevel"},
 
   "home":{"kind":"PredesignedLevel", "depth":0, "file":"levelsDesc/Home.json", "noFogOfWar":"true", "isSafe":true, "music":"ost_town_1.mp3", "script": "scripts/actors/DeathCounter"},
-  "crossroads":{"kind":"PredesignedLevel", "depth":0, "file":"levelsDesc/Crossroads.json", "noFogOfWar":"true", "isSafe":true, "music":"ost_town_1.mp3", "script": "scripts/actors/Crossroads"},
-  "desert":{"kind":"PredesignedLevel", "depth":0, "file":"levelsDesc/Desert.json", "noFogOfWar":"false", "isSafe":false, "music":"Desert.mp3", "script": "scripts/actors/Desert"},
+  "crossroads":{"kind":"PredesignedLevel", "depth":0, "file":"levelsDesc/Crossroads.json", "noFogOfWar":"true", "isSafe":true, "music":"ost_town_1.mp3", "script": "scripts/actors/Crossroads"},/*
+  "ruinedCastle":{"kind":"PredesignedLevel", "depth":0, "file":"levelsDesc/RuinedCastle.json", "noFogOfWar":"false", "isSafe":false, "music":"ost_town_1.mp3", "script": "scripts/actors/RuinedCastle"},*/
+  "desert":{"kind":"PredesignedLevel", "depth":0, "file":"levelsDesc/Desert.json", "music":"Desert.mp3", "script": "scripts/actors/Desert"},
   "tomb":{"kind":"PredesignedLevel", "depth":0, "file":"levelsDesc/Tomb.json", "noFogOfWar":"true", "isSafe":true, "music":"Tomb.mp3", "script": "scripts/actors/DeathCounter"},
   "snowTown":{"kind":"PredesignedLevel", "depth":0, "file":"levelsDesc/Town.json", "noFogOfWar":"true", "isSafe":true, "music":"ost_town_1.mp3", "script": "scripts/actors/Towns/Regular"},
   "shed":{"kind":"PredesignedLevel", "depth":0, "file":"levelsDesc/Shed.json", "noFogOfWar":"true", "isSafe":true, "music":"ost_town_1.mp3", "script": "scripts/actors/DeathCounter"},
@@ -20,7 +21,7 @@
   "fortune":{"kind":"PredesignedLevel", "depth":0, "file":"levelsDesc/Fortune.json","noFogOfWar":"true", "isSafe":true, "music":"ost_town_1.mp3", "script": "scripts/actors/DeathCounter"},
   "library":{"kind":"PredesignedLevel", "depth":0, "file":"levelsDesc/Library.json","noFogOfWar":"true", "isSafe":true, "music":"ost_town_1.mp3", "script": "scripts/actors/DeathCounter"},
   "attic":{"kind":"PredesignedLevel", "depth":0, "file":"levelsDesc/Attic.json", "noFogOfWar":"true", "isSafe":true, "music":"ost_town_1.mp3", "script": "scripts/actors/DeathCounter"},
-  "town_shop":{"kind":"PredesignedLevel", "depth":0, "file":"levelsDesc/Shop.json","noFogOfWar":"true", "isSafe":true, "music":"ost_town_1.mp3", "script": "scripts/actors/DeathCounter", "treasury":"TownShopTreasury.json"},
+  "snowShop":{"kind":"PredesignedLevel", "depth":0, "file":"levelsDesc/Shop.json","noFogOfWar":"true", "isSafe":true, "music":"ost_town_1.mp3", "script": "scripts/actors/DeathCounter", "treasury":"TownShopTreasury.json"},
 
   "portal_room_lvl5":{"kind":"PredesignedLevel" , "depth":5 , "file":"levelsDesc/Portal.json", "noFogOfWar":"true", "isSafe":true, "script": "scripts/actors/DeathCounter"},
   "portal_room_lvl10":{"kind":"PredesignedLevel", "depth":10, "file":"levelsDesc/Portal.json", "noFogOfWar":"true", "isSafe":true, "script": "scripts/actors/DeathCounter"},
@@ -101,7 +102,35 @@
   "sleep2":{"kind":"RandomLevel", "depth":2, "size":[32,32], "file":"levelsDesc/LevelSleep.json", "music":"surface.mp3", "script": "scripts/actors/DeathCounter"},
   "sleep3":{"kind":"RandomLevel", "depth":3, "size":[32,32], "file":"levelsDesc/LevelSleep.json", "feeling":"WATER", "music":"surface.mp3", "script": "scripts/actors/DeathCounter"},
   "sleep4":{"kind":"RandomLevel", "depth":4, "size":[32,32], "file":"levelsDesc/LevelSleep.json", "feeling":"CHASM", "music":"surface.mp3", "script": "scripts/actors/DeathCounter"},
-  "sleep5":{"kind":"RandomLevel", "depth":5, "size":[32,32], "file":"levelsDesc/LevelSleep.json", "music":"surface.mp3", "script": "scripts/actors/DeathCounter"}
+  "sleep5":{"kind":"RandomLevel", "depth":5, "size":[32,32], "file":"levelsDesc/LevelSleep.json", "music":"surface.mp3", "script": "scripts/actors/DeathCounter"},
+
+  "dreamPortal_room_lvl1":{"kind":"PredesignedLevel", "depth":12, "file":"levelsDesc/DreamPortal.json", "noFogOfWar":"true", "isSafe":true, "script": "scripts/actors/DeathCounter"},
+  "dreamPortal_room_lvl2":{"kind":"PredesignedLevel", "depth":17, "file":"levelsDesc/DreamPortal.json", "noFogOfWar":"true", "isSafe":true, "script": "scripts/actors/Dungeons/Portals"},
+
+  "dream1":{"kind":"RandomLevel", "depth":7, "size":[26,26], "file":"levelsDesc/LevelDream.json", "feeling":"GRASS", "script": "scripts/actors/DeathCounter"},
+  "dream2":{"kind":"RandomLevel", "depth":8, "size":[26,26], "file":"levelsDesc/LevelDream.json", "script": "scripts/actors/DeathCounter"},
+  "dream3":{"kind":"RandomLevel", "depth":9, "size":[26,26], "file":"levelsDesc/LevelDream.json", "feeling":"WATER", "script": "scripts/actors/DeathCounter"},
+  "dream4":{"kind":"RandomLevel", "depth":10, "size":[26,26], "file":"levelsDesc/LevelDream.json", "feeling":"CHASM", "script": "scripts/actors/DeathCounter"},
+  "dream5":{"kind":"RandomLevel", "depth":11, "size":[26,26], "file":"levelsDesc/LevelDream.json", "feeling":"GRASS", "script": "scripts/actors/DeathCounter"},
+  "dream6":{"kind":"RandomLevel", "depth":13, "size":[26,26], "file":"levelsDesc/LevelDream.json", "script": "scripts/actors/DeathCounter"},
+  "dream7":{"kind":"RandomLevel", "depth":14, "size":[26,26], "file":"levelsDesc/LevelDream.json", "feeling":"WATER", "script": "scripts/actors/DeathCounter"},
+  "dream8":{"kind":"RandomLevel", "depth":15, "size":[26,26], "file":"levelsDesc/LevelDream.json", "feeling":"CHASM", "script": "scripts/actors/DeathCounter"},
+  "dream9":{"kind":"RandomLevel", "depth":16, "size":[26,26], "file":"levelsDesc/LevelDream.json", "script": "scripts/actors/DeathCounter"},
+  "dreamFinal":{"kind":"PredesignedLevel", "depth":18, "file":"levelsDesc/DreamFinal.json", "isSafe":true, "script": "scripts/actors/Dungeons/FairyOverlordRoom"},
+
+  "nightmarePortal_room_lvl1":{"kind":"PredesignedLevel", "depth":12, "file":"levelsDesc/NightmarePortal.json", "noFogOfWar":"true", "isSafe":true, "script": "scripts/actors/DeathCounter"},
+  "nightmarePortal_room_lvl2":{"kind":"PredesignedLevel", "depth":17, "file":"levelsDesc/NightmarePortal.json", "noFogOfWar":"true", "isSafe":true, "script": "scripts/actors/Dungeons/Portals"},
+
+  "nightmare1":{"kind":"RandomLevel", "depth":7, "size":[43,43], "file":"levelsDesc/LevelNightmare.json", "feeling":"GRASS", "script": "scripts/actors/DeathCounter"},
+  "nightmare2":{"kind":"RandomLevel", "depth":8, "size":[43,43], "file":"levelsDesc/LevelNightmare.json", "script": "scripts/actors/DeathCounter"},
+  "nightmare3":{"kind":"RandomLevel", "depth":9, "size":[43,43], "file":"levelsDesc/LevelNightmare.json", "feeling":"WATER", "script": "scripts/actors/DeathCounter"},
+  "nightmare4":{"kind":"RandomLevel", "depth":10, "size":[43,43], "file":"levelsDesc/LevelNightmare.json", "feeling":"CHASM", "script": "scripts/actors/DeathCounter"},
+  "nightmare5":{"kind":"RandomLevel", "depth":11, "size":[43,43], "file":"levelsDesc/LevelNightmare.json", "feeling":"GRASS", "script": "scripts/actors/DeathCounter"},
+  "nightmare6":{"kind":"RandomLevel", "depth":13, "size":[43,43], "file":"levelsDesc/LevelNightmare.json", "script": "scripts/actors/DeathCounter"},
+  "nightmare7":{"kind":"RandomLevel", "depth":14, "size":[43,43], "file":"levelsDesc/LevelNightmare.json", "feeling":"WATER", "script": "scripts/actors/DeathCounter"},
+  "nightmare8":{"kind":"RandomLevel", "depth":15, "size":[43,43], "file":"levelsDesc/LevelNightmare.json", "feeling":"CHASM", "script": "scripts/actors/DeathCounter"},
+  "nightmare9":{"kind":"RandomLevel", "depth":16, "size":[43,43], "file":"levelsDesc/LevelNightmare.json", "script": "scripts/actors/DeathCounter"},
+  "nightmareFinal":{"kind":"PredesignedLevel", "depth":17, "file":"levelsDesc/NightmareFinal.json", "isSafe":true, "script": "scripts/actors/Dungeons/CeaselessVoidRoom"}
  },
 
  "Graph":{
@@ -109,10 +138,11 @@
   "testLevel":[["home"],[]],
 
   "home":[["crossroads"],[]],
-  "crossroads":[["home", "ice1","snowTown","home","desert","home"],["home"]],
+  "crossroads":[["home", "ice1","snowTown","home","desert","home"],["home"]],/*
+  "ruinedCastle":[[],["crossroads"]],*/
   "desert":[["tomb","tomb","tomb"],["crossroads"]],
   "tomb":[["tomb1"],["desert","desert","desert"]],
-  "snowTown":[["house1","house2","inn","church","cinema","tower1","library","town_shop","fortune","shed"],["crossroads"]],
+  "snowTown":[["house1","house2","inn","church","cinema","tower1","library","snowShop","fortune","shed"],["crossroads"]],
   "shed":[[],["snowTown"]],
   "house1":[[],["snowTown"]],
   "house2":[["house2_basement"],["snowTown"]],
@@ -121,7 +151,7 @@
   "tower2":[[],["tower1"]],
   "inn":[["sleep1"], ["snowTown"]],
   "church":[[],["snowTown"]],
-  "town_shop":[[],["snowTown"]],
+  "snowShop":[[],["snowTown"]],
   "cinema":[[],["snowTown"]],
   "fortune":[["home"],["snowTown"]],
   "library":[["attic"],["snowTown"]],
@@ -194,7 +224,31 @@
   "sleep3":[["sleep4"],["sleep2"]],
   "sleep4":[["sleep5"],["sleep3"]],
   "sleep5":[["sleepPortal_room_lvl1"],["sleep4"]],
-  "sleepPortal_room_lvl1":[["dream1", "nightmare1"],["sleep5"]]
+  "sleepPortal_room_lvl1":[["dream1", "nightmare1"],["sleep5"]],
+  "dream1":[["dream2"],["sleepPortal_room_lvl1"]],
+  "dream2":[["dream3"],["dream1"]],
+  "dream3":[["dream4"],["dream2"]],
+  "dream4":[["dream5"],["dream3"]],
+  "dream5":[["dreamPortal_room_lvl1"],["dream4"]],
+  "dreamPortal_room_lvl1":[["dream6"],["dream5"]],
+  "dream6":[["dream7"],["dreamPortal_room_lvl1"]],
+  "dream7":[["dream8"],["dream6"]],
+  "dream8":[["dream9"],["dream7"]],
+  "dream9":[["dreamPortal_room_lvl2"],["dream8"]],
+  "dreamPortal_room_lvl2":[["dreamFinal"],["dream9"]],
+  "dreamFinal":[["sleepPortal_room_lvl1"],["dreamPortal_room_lvl2"]],
+  "nightmare1":[["nightmare2"],["sleepPortal_room_lvl1"]],
+  "nightmare2":[["nightmare3"],["nightmare1"]],
+  "nightmare3":[["nightmare4"],["nightmare2"]],
+  "nightmare4":[["nightmare5"],["nightmare3"]],
+  "nightmare5":[["nightmarePortal_room_lvl1"],["nightmare4"]],
+  "nightmarePortal_room_lvl1":[["nightmare6"],["nightmare5"]],
+  "nightmare6":[["nightmare7"],["nightmarePortal_room_lvl1"]],
+  "nightmare7":[["nightmare8"],["nightmare6"]],
+  "nightmare8":[["nightmare9"],["nightmare7"]],
+  "nightmare9":[["nightmarePortal_room_lvl2"],["nightmare8"]],
+  "nightmarePortal_room_lvl2":[["nightmareFinal"],["nightmare9"]],
+  "nightmareFinal":[["sleepPortal_room_lvl1"],["nightmarePortal_room_lvl2"]]
  },
  "Entrance":"0"
 }

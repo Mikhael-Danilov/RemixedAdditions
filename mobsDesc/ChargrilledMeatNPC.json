@@ -1,7 +1,6 @@
 {
   "baseSpeed": 0,
   "name": "ChargrilledMeat_Name",
-  "name_objective": "VhargrilledMeat_Name",
   "description": "ChargrilledMeat_Info",
   "spriteDesc": "spritesDesc/ChargrilledMeatNPC.json",
   "scriptFile": "scripts/npc/Food",

@@ -1,6 +1,5 @@
 {
   "baseSpeed": 0,
-  "name_objective": "ShadyNPC_Name",
   "spriteDesc": "spritesDesc/ShadyNPC.json",
   "scriptFile": "scripts/npc/Shady",
   "friendly": true,

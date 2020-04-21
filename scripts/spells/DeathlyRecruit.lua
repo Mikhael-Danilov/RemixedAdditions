@@ -37,7 +37,7 @@ return spell.init{
             end
 
             if not target:canBePet() and target:getMobClassName() ~= "MirrorImage" then
-                RPD.glogn("Deathly_Failed")
+                RPD.glogn("Deathly_Failed", target:name())
                 return false
             end
 
@@ -52,7 +52,7 @@ return spell.init{
                     RPD.Mob:makePet(target, caster)
                     RPD.setAi(target, "Wandering")
                     level:spawnMob(target)
-                    RPD.glogp("Deathly_Recruited",target:getName())
+                    RPD.glogp("Deathly_Recruited", target:name())
                     return true
                 end
             else

@@ -1,7 +1,6 @@
 {
    "baseSpeed"     :0,
    "name"          :"LostSoul_Name",
-  "name_objective": "LostSoul_Name",
    "description"   :"LostSoul_Desc",
    "spriteDesc"    :"spritesDesc/LostSoul.json",
    "scriptFile"    :"scripts/npc/LostSoul",

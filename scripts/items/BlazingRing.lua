@@ -20,23 +20,24 @@ return item.init{
             stackable     = false,
             upgradable    = false,
             identified    = true,
-            defaultAction = ACThrow,
+            defaultAction = RPD.Actions.equip,
             price         = 89*5,
             isArtifact    = true
         }
     end,
 
     activate = function(self, item, hero)
-        self.data.activationCount = (self.data.activationCount or 0) + 1
-        RPD.glogp("Your now blazing with fiery.")
         RPD.affectBuff(hero, "BlazingFiery", 10)
         RPD.permanentBuff(hero, RPD.Buffs.Light)
+        RPD.glogp("Your now blazing with fiery.")
+        item:setDefaultAction(RPD.Actions.unequip)
     end,
 
     deactivate = function(self, item, hero)
-        RPD.glogn("Your no longer blazing.")
         RPD.removeBuff(hero,"BlazingFiery")
         RPD.removeBuff(hero,RPD.Buffs.Light)
+        RPD.glogn("Your no longer blazing.")
+        item:setDefaultAction(RPD.Actions.equip)
     end,
 
     bag = function(self, item)

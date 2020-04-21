@@ -3,20 +3,19 @@
 --- Created by mike.
 --- DateTime: 02.05.19 14:36
 ---
-local RPD  = require "scripts/lib/revampedCommonClasses"
 
+local RPD  = require "scripts/lib/revampedCommonClasses"
 local buff = require "scripts/lib/buff"
 
 local immune = {"Charmed"}
-
 local resistance = {"Succubus"}
 
-local immuneMobs = {Goo=true,SpiderQueen=true,Lich=true,Tengu=true,IceGuardianCore=true,IceGuardian=true,DM300=true,Kind=true,ShadowLord=true,Yog=true,YogEye=true,YogBeain=true,YogHeart=true,YogTeeth=true,RottenFist=true,BurningFist=true,BoneDragon=true,LostSoul=true,GhostWarrior=true,GhostWarriorNPC=true,GhostAssassin=true,GhostArcher=true,GhostMage=true}
+local immuneMobs = {Goo=true,SpiderQueen=true,Lich=true,Tengu=true,IceGuardianCore=true,IceGuardian=true,DM300=true,Kind=true,ShadowLord=true,Yog=true,YogEye=true,YogBeain=true,YogHeart=true,YogTeeth=true,RottenFist=true,BurningFist=true,BoneDragon=true,FairyOverlord=true,CeaselessVoid=true,NightmareClone=true,LostSoul=true,WarriorGhost=true,WarriorGhostNPC=true,AssassinGhost=true,ArcherGhost=true,MageGhost=true}
 
 return buff.init{
     desc  = function ()
         return {
-            icon          = 49,
+            icon          = 51,
             name          = "CharmfulBuff_Name",
             info          = "CharmfulBuff_Info",
         }
@@ -34,12 +33,16 @@ return buff.init{
     end,
 
     defenceProc = function(chr, buff, enemy, dmg)
-        local chance = math.random(1,10)
+        local chance = math.random(1,100)
+        local itemLevel = 0
         local chrKind = enemy:getEntityKind()
-        if chance >= 5 then
+        if buff:getSource() then
+            itemLevel = buff:getSource():level()
+        end
+        if chance >= 25+itemLevel then
             if not immuneMobs[chrKind] then
-                RPD.affectBuff(enemy, RPD.Buffs.Charm, dmg/2+5)
-                RPD.glogp(RPD.MobFactory:mobByName(chrKind):name().." has been charmed!")
+                RPD.affectBuff(enemy, RPD.Buffs.Charm, dmg/2+5+itemLevel)
+                enemy:getSprite():showStatus(0xFF0000, RPD.textById("Hero_StaCharm"))
             end
         end
         return dmg

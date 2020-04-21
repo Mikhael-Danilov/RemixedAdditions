@@ -32,14 +32,8 @@
 
          "x":7,
          "y":7
-        },
-        {
-         "kind":"Sign",
-         "text":"NotFinished_text",
-         "x":12,
-         "y":8
         }],
- "tiles_logic":"tiles_dream.png",
+ "tiles_logic":"tiles_sleep.png",
  "tiles_objects":"Objects.png",
  "water":"water_portal.png",
  "width":15

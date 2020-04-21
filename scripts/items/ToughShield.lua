@@ -5,11 +5,11 @@
 -- This file is part of Remixed Pixel Dungeon.
 --
 
-local RPD = require "scripts/lib/commonClasses"
+local RPD = require "scripts/lib/revampedCommonClasses"
 
 local item = require "scripts/lib/item"
 
-local shields = require "scripts/lib/strongerShields"
+local shields = require "scripts/lib/shields"
 
 local shieldLevel = 3
 local shieldDesc  = "ToughShield_desc"
@@ -23,9 +23,26 @@ baseDesc.desc = function (self, item)
         name          = "ToughShield_name",
         info          = shieldDesc,
         price         = 40 * shieldLevel,
+        defaultAction = RPD.Actions.equip,
         equipable     = "left_hand",
         upgradable    = true
     }
+end
+
+baseDesc.activate = function (self, item, hero)
+    if item:slotName() == "LEFT_HAND" then
+        local shieldBuff = RPD.affectBuff(hero, "ShieldLeft", shields.rechargeTime(shieldLevel, hero:effectiveSTR()))
+        shieldBuff:level(shieldLevel)
+        shieldBuff:setSource(item)
+        item:setDefaultAction(RPD.Actions.unequip)
+    end
+end
+
+baseDesc.deactivate = function (self, item, hero)
+    if item:slotName() == "LEFT_HAND" then
+        RPD.removeBuff(hero, "ShieldLeft")
+        item:setDefaultAction(RPD.Actions.equip)
+    end
 end
 
 return item.init(baseDesc)

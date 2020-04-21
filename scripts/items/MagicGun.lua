@@ -29,13 +29,13 @@ return item.init{
         }
     end,
     actions = function(self, item, hero)
-        return {"magicgun_action1","magicgun_action2","magicgun_action3"}
+        return {"magicgun_action1","magicgun_action2","magicgun_action3","Just Kill","All out Kill"}
     end,
 
     cellSelected = function(self, item, action, cell)
         if action == "magicgun_action1" then
             local mob = RPD.Actor:findChar(cell)
-            
+
             if mob ~= nil then
                 if mob ~= item:getUser() then
                     if mob:getOwnerId() == item:getUser():getId() and mob:hp() <= 0 then
@@ -54,6 +54,22 @@ return item.init{
                     else
                         uses = uses+1
                     end
+                end
+            end
+        end
+
+        if action == "Just Kill" then
+            local mob = RPD.Actor:findChar(cell)
+
+            if mob ~= nil then
+                if mob ~= item:getUser() then
+                    if mob:getOwnerId()== item:getUser():getId() then
+                        mob:getSprite():emitter():burst(RPD.Sfx.ShadowParticle.CURSE, 6)
+                        RPD.playSound("snd_curse.mp3")
+                    end
+                    RPD.zapEffect(item:getUser():getPos(), cell, "Lightning")
+                    mob:destroy()
+                    mob:getSprite():killAndErase()
                 end
             end
         end
@@ -78,7 +94,7 @@ return item.init{
                     if target then
                         if target ~= item:getUser() and not target:isPet() and target:getEntityKind() ~= "Shopkeeper" and target:getEntityKind() ~= "ImpShopkeeper" then
                             RPD.zapEffect(item:getUser():getPos(), target:getPos(), "Lightning")
-                            target:damage(target:ht(), item:getUser())
+                            target:damage(target:hp(), item:getUser())
                         end
                     end
                 end
@@ -94,7 +110,28 @@ return item.init{
                     if target then
                         if target ~= item:getUser() then
                             RPD.zapEffect(item:getUser():getPos(), target:getPos(), "Lightning")
-                            target:damage(target:ht(), item:getUser())
+                            target:damage(target:hp(), item:getUser())
+                        end
+                    end
+                end
+            end
+        end
+
+        if action == "Just Kill" then
+            item:selectCell(action,"magicgun_shoot")
+        end
+
+        if action == "All out Kill" then
+            local level = RPD.Dungeon.level
+            local target
+            for x = 0, level:getWidth() do
+                for y = 0, level:getHeight() do
+                    target = RPD.Actor:findChar(level:cell(x,y))
+                    if target then
+                        if target ~= item:getUser() then
+                            RPD.zapEffect(item:getUser():getPos(), target:getPos(), "Lightning")
+                            target:destroy()
+                            target:getSprite():killAndErase()
                         end
                     end
                 end

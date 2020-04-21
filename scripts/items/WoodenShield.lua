@@ -5,11 +5,9 @@
 -- This file is part of Remixed Pixel Dungeon.
 --
 
-local RPD = require "scripts/lib/commonClasses"
-
+local RPD = require "scripts/lib/revampedCommonClasses"
 local item = require "scripts/lib/item"
-
-local shields = require "scripts/lib/strongerShields"
+local shields = require "scripts/lib/shields"
 
 local shieldLevel = 2
 local shieldDesc  = "WoodenShield_desc"
@@ -23,13 +21,34 @@ baseDesc.desc = function (self, item)
         name          = "WoodenShield_name",
         info          = shieldDesc,
         price         = 20 * shieldLevel,
+        defaultAction = RPD.Actions.equip,
         equipable     = "left_hand",
         upgradable    = true
     }
 end
 
-return item.init(baseDesc, poison)--[[
+baseDesc.activate = function (self, item, hero)
+    if item:slotName() == "LEFT_HAND" then
+        local shieldBuff = RPD.affectBuff(hero, "ShieldLeft", shields.rechargeTime(shieldLevel, hero:effectiveSTR()))
+        shieldBuff:level(shieldLevel)
+        shieldBuff:setSource(item)
+        item:setDefaultAction(RPD.Actions.unequip)
+    end
+end
 
-poison = function()
-    return RPD.ItemFactory:itemByName("NecroShield")
-end]]
+baseDesc.deactivate = function (self, item, hero)
+    if item:slotName() == "LEFT_HAND" then
+        RPD.removeBuff(hero, "ShieldLeft")
+        item:setDefaultAction(RPD.Actions.equip)
+    end
+end
+
+baseDesc.poison = function(self, item, cell)
+    local hero = RPD.Dungeon.hero
+    if hero:className() == "necromancer" or hero:getSubClass():name() == "LICh" then
+        return RPD.createItem("NecroticShield", {level=item:level(),quantity=item:quantity()})
+    end
+    return item
+end
+
+return item.init(baseDesc, poison)

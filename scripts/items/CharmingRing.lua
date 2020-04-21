@@ -18,23 +18,25 @@ return item.init{
             name          = "CharmRing_Name",
             info          = "CharmRing_Desc",
             stackable     = false,
-            upgradable    = false,
+            upgradable    = true,
             identified    = true,
-            defaultAction = ACThrow,
+            defaultAction = RPD.Actions.equip,
             price         = 89*2.5,
             isArtifact    = true
         }
     end,
 
     activate = function(self, item, hero)
-        self.data.activationCount = (self.data.activationCount or 0) + 1
+        local charmfulBuff = RPD.affectBuff(item:getUser(), "Charmful", 10)
+        charmfulBuff:setSource(item)
         RPD.glogp("Your now charming.")
-        RPD.affectBuff(hero,"Charmful",10)
+        item:setDefaultAction(RPD.Actions.unequip)
     end,
 
     deactivate = function(self, item, hero)
-        RPD.glogn("Your no longer charming.")
         RPD.removeBuff(hero,"Charmful")
+        RPD.glogn("Your no longer charming.")
+        item:setDefaultAction(RPD.Actions.equip)
     end,
 
     bag = function(self, item)

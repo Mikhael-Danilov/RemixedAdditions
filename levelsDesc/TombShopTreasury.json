@@ -27,8 +27,8 @@
     "ScrollOfDomination": 0.1,
     "ScrollOfChallenge": 1,
     "ScrollOfCurse": 1,
-    "BlankScroll": 5,/*
-    "ScrollOfReturning": 1,*/
+    "BlankScroll": 5,
+    "ScrollOfReturning": 1,
     "SpecialSummon": 1
   },
   "POTION": {

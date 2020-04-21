@@ -31,7 +31,7 @@ return spell.init{
         }
     end,
     cast = function(self, spell, chr)
-        local tier = tier or 0
+        local tier = tier or 1
         local clevel = chr:level()
         local level = RPD.Dungeon.level
         local cell

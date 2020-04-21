@@ -1,6 +1,5 @@
 {
   "baseSpeed": 0,
-  "name_objective": "InnkeeperNPC_Name",
   "spriteDesc": "spritesDesc/InnkeeperNPC.json",
   "scriptFile": "scripts/npc/Innkeeper",
   "friendly": true,

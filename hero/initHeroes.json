@@ -12,6 +12,7 @@
     ],
     "str": 10,
     "hp": 20,
+    "isSpellUser": true,
     "magicAffinity": "Common",
     "sp": 10,
     "maxSp": 10
@@ -79,7 +80,7 @@
       }
     ],
     "isSpellUser": true,
-    "magicAffinity": "Rogue"
+    "magicAffinity": "Rouge"
   },
   "HUNTRESS": {
     "items": [

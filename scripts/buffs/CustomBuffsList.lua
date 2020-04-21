@@ -5,6 +5,6 @@
 ---
 
 
-local buffs = {"BodyArmor","DieHard","Cloak","Counter","ShieldLeft","GasesImmunity","Charmful","BlazingFiery",--[["SubZero",]]"DmgImmune"}
+local buffs = {"BodyArmor","DieHard","Cloak","Counter","ShieldLeft","NecroShieldLeft","GasesImmunity","Charmful","BlazingFiery","SubZero","Nightmare","FairySpell","DmgImmune"}
 
 return buffs

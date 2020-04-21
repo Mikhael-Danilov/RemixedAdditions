@@ -11,6 +11,6 @@
    "description"   :"WormLarva_Desc",
    "spriteDesc"    :"spritesDesc/Larva.json",
    "canBePet"      :true,
-   "scriptFile"    :"scripts/mobs/WormLarva",
+   "scriptFile"    :"scripts/mobs/Larva",
    "walkingType"   :"NORMAL"
 }

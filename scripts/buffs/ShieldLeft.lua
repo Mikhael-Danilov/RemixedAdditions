@@ -43,19 +43,23 @@ return buff.init{
         if self.data.state then -- shield was ready
             local lvl = buff:level()
 
-
             if math.random() < shields.blockChance(lvl, buff.target:effectiveSTR()) then
                 RPD.topEffect(buff.target:getPos(),"shield_blocked")
 
-                RPD.playSound("body_armor.mp3")
+                RPD.playSound("body_armor")
 
                 self.data.state = false
                 RPD.BuffIndicator:refreshHero()
 
+                buff.target:spend(
+                        shields.waitAfterBlockTime(
+                                buff:level(),
+                                buff.target:effectiveSTR()))
+
                 return math.max(damage - shields.blockDamage(lvl,buff:getSource():level()), 0)
             else
                 RPD.topEffect(buff.target:getPos(),"shield_broken")
-                RPD.playSound("snd_shatter.mp3")
+                RPD.playSound("snd_shatter")
             end
         end
         return damage

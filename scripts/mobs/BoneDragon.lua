@@ -11,22 +11,23 @@ local mob = require"scripts/lib/mob"
 
 local Potions = {"ManaPotion","PotionOfLiquidFlame","PotionOfLevitation","PotionOfExperience","PotionOfStrength","PotionOfMight","PotionOfMindVision"}
 local PotionAmount
-local Scrolls = {"BlankScroll","ScrollOfWeaponUpgrade","ScrollOfUpgrade","ScrollOfMagicMapping","ScrollOfCurse","ScrollOfTerror","ScrollOfChallenge","ScrollOfPsionicBlast","ScrollOfWipeOut"}
+local Scrolls = {"BlankScroll","ScrollOfWeaponUpgrade","ScrollOfUpgrade","ScrollOfMagicMapping","ScrollOfCurse","ScrollOfTerror","ScrollOfChallenge","ScrollOfPsionicBlast","ScrollOfWipeOut","ScrollOfReturning"}
 local ScrollAmount
 local Rings = {"RingOfPower","RingOfAccuracy","RingOfEvasion","RingOfMending","RingOfElements","BlazingRing"}
-local Items = {"SpecialSummon","UltimateCatchingCapsule","Bandage","OldBandage","LloydsBeacon"}
+local Items = {"SpecialSummon","UltimateCatchingCapsule","Bandage","OldBandage"}
 local ItemAmount
 
 local tombPortal = {kind="PortalGateSender",target={levelId="tomb",x=6,y=1}}
 local townPortal = {kind="PortalGateSender",target={levelId="snowTown",x=12,y=28}}
 local desertTownPortal = {kind="PortalGateSender",target={levelId="home",x=9,y=3}}
-local sign = {kind="Sign",text="TombPortal_Directions"}
+local sign = {kind="Sign",text=RPD.textById("TombPortal_Directions"):format(RPD.textById("tombMap_Name"),RPD.textById("snowTownMap_Name"),"Unknown for now"}
 
 return mob.init({
     die = function(self, cause)
         local level = RPD.Dungeon.level
+        local levelId = RPD.Dungeon.levelId
         local cellPos = RPD.getXy(self)
-        --RPD.Actor:remove(RPD.new(RPD.Objects.Actors.ScriptedActor,"scripts/actors/BoneDragon/Burn"))
+        RPD.Actor:remove(RPD.new(RPD.Objects.Actors.ScriptedActor,"scripts/actors/Bosses/BoneDragon"))
         local function deathDmg(cell)
             local target = RPD.Actor:findChar(cell)
             if target then
@@ -44,10 +45,14 @@ return mob.init({
         RPD.forCellsAround(level:cell(cellPos[1]+1,cellPos[2]-1), deathDmg)
         RPD.forCellsAround(level:cell(cellPos[1]-1,cellPos[2]+1), deathDmg)
         RPD.forCellsAround(level:cell(cellPos[1]+1,cellPos[2]+1), deathDmg)
-        RPD.createLevelObject(tombPortal, level:cell(7,2))
-        RPD.createLevelObject(townPortal, level:cell(4,6))
-        RPD.createLevelObject(desertTownPortal, level:cell(10,6))
-        RPD.createLevelObject(sign, level:cell(7,6))
+        if levelId == "tombFinal" then
+            level:set(level:cell(7,11), 7)
+            RPD.GameScene:updateMap()
+            RPD.createLevelObject(tombPortal, level:cell(7,2))
+            RPD.createLevelObject(townPortal, level:cell(4,6))
+            RPD.createLevelObject(desertTownPortal, level:cell(10,6))
+            RPD.createLevelObject(sign, level:cell(7,6))
+        end
         for i = 1, 3 do
             PotionAmount = math.random(2,7)
             local ranPots = math.random(1,#Potions)
@@ -59,7 +64,7 @@ return mob.init({
                 level:drop(item, cellPos)
             end
             ScrollAmount = math.random(2,6)
-            local ranScr = math.random(1,#Scrolls-1)
+            local ranScr = math.random(1,#Scrolls-2)
             level:drop(RPD.item(Scrolls[ranScr], ScrollAmount), self:getPos())
             local ranRin = math.random(1,#Rings-1)
             level:drop(RPD.createItem(Rings[ranRin], {level=ScrollAmount*2}), self:getPos())
@@ -70,12 +75,10 @@ return mob.init({
         ItemAmount = math.random(2,28)
         level:drop(RPD.item(Items[3], ItemAmount/2), self:getPos())
         level:drop(RPD.item(Items[4], ItemAmount), self:getPos())
-        level:drop(RPD.item(Items[1]), self:getPos())
-        level:drop(RPD.item(Items[5]), self:getPos())
-        level:drop(RPD.item(Scrolls[#Scrolls], 5), self:getPos())
+        level:drop(RPD.createItem(Items[1], {level=ItemAmount}), self:getPos())
+        level:drop(RPD.item(Scrolls[#Scrolls]), self:getPos())
+        level:drop(RPD.item(Scrolls[#Scrolls-1], 5), self:getPos())
         level:drop(RPD.item(Rings[#Rings]), self:getPos())
-        level:set(level:cell(7,11), 7)
-        RPD.GameScene:updateMap()
     end,
 
     defenceProc = function(self, enemy, dmg)
@@ -85,11 +88,9 @@ return mob.init({
                 return self:damage(dmg*3, enemy)
             end
         end
-        --[[
         if math.random(1,100) <= 5 then
-            level:addScriptedActor(RPD.new(RPD.Objects.Actors.ScriptedActor,"scripts/actors/BoneDragon/Burn"))
+            level:addScriptedActor(RPD.new(RPD.Objects.Actors.ScriptedActor,"scripts/actors/Bosses/BoneDragon"))
         end
-        ]]
         return self:damage(dmg, enemy)
     end,
 
