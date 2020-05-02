@@ -20,7 +20,8 @@ local ItemAmount
 local tombPortal = {kind="PortalGateSender",target={levelId="tomb",x=6,y=1}}
 local townPortal = {kind="PortalGateSender",target={levelId="snowTown",x=12,y=28}}
 local desertTownPortal = {kind="PortalGateSender",target={levelId="home",x=9,y=3}}
-local sign = {kind="Sign",text=RPD.textById("TombPortal_Directions"):format(RPD.textById("tombMap_Name"),RPD.textById("snowTownMap_Name"),"Unknown for now"}
+local sign = {kind="Sign",
+              text=RPD.textById("TombPortal_Directions"):format(RPD.textById("tombMap_Name"),RPD.textById("snowTownMap_Name"),"Unknown for now")}
 
 return mob.init({
     die = function(self, cause)
