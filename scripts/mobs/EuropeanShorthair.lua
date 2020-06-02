@@ -20,9 +20,9 @@ return mob.init({
         else
             if cause.damage then
                 cause:damage(math.random(1,10), self)
+                cause:getSprite():emitter():burst(RPD.Sfx.ShadowParticle.CURSE, 6)
+                RPD.playSound("snd_cursed.mp3")
             end
-            cause:getSprite():emitter():burst(RPD.Sfx.ShadowParticle.CURSE, 6)
-            RPD.playSound("snd_cursed.mp3")
         end
         self:getSprite():emitter():burst(RPD.Sfx.ElmoParticle.FACTORY, 6)
     end,
