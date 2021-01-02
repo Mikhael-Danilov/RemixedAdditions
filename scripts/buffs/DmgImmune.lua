@@ -20,7 +20,7 @@ return buff.init{
     end,
 
     defenceProc = function(self, buff, enemy, damage)
-        return buff.target:damage(0, enemy)
+        return 0
     end,
 
     immunities = function(self, buff)
